@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body class="loginBody" onsubmit="return adminLogin()">
+    <div class="form-container">
+        <p class="close" id="closepage">x</p>
+        <form id="login-form">
+            <p>ADMIN LOGIN</p>
+            <div class="inputGroup">
+                <i class="icon fa-solid fa-user"></i>
+                <input type="text" class="inputField" placeholder="Username" id="username" required>
+            </div>
+            <div class="inputGroup">
+                <i class="icon fa-solid fa-lock"></i>
+                <input type="password" class="inputField" placeholder="Password" id="password" required>
+            </div>
+            <button type="submit" class="btn" id="submitBtn">LOGIN</button>
+        </form>
+        <a href="#" class="forgotPassword">Forgot Password?</a>
+        <p class="errmsg" id="errMessage"></p>
+    </div>
+    <script src="/javascript/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body style="background-color: lightgray;" class="adminHomebody">
+    <header class="header">
+        <a href="home.html" >LOG OUT</a>
+    </header>
+    
+    <div class="container">
+        <div class="navgation">
+            <p>Results</p>
+            <p>Questions</p>
+        </div>
+        <div class="content">
+            <div class="resultdiv">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Qualification</th>
+                            <th>Marks</th>
+                            <th>Quiz Submission Time</th>
+                            <th>-</th>
+                        </tr>
+                    </thead>
+                    <tbody class="resultTableBody">
+                        <tr>
+                            <td>ABC</td>
+                            <td>B.Tech</td>
+                            <td>10/10</td>
+                            <td>01-01-2025 10:30:00 AM</td>
+                            <td><a href="#">More Details</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="questionsdiv" >
+                <button class="addQuestionbtn" onclick="openAddQuestionpopup()">Add Question</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Question</th>
+                            <th>-</th>
+                            <th>-</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01</td>
+                            <td>question 1</td>
+                            <td><button class="actionBtn"><i class="fas fa-pencil"></i></button></td>
+                            <td><button class="actionBtn"><i class="fas fa-trash-can"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div id="popup-container"></div>
+
+    <script src="/javascript/adminScript.js"></script>
+</body>
+</html>
