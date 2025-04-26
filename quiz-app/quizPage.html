@@ -6,31 +6,35 @@
     <title>Quiz Page</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body style="background-color: lightgray; display: block;" >
+<body style="background-color: lightgray; display: block;" onload="loadingQuizQuestions()" >
     <h1 class="heading">UCBOS Quiz</h1>
-    <div class="quiz-container">
-        <div class="question">
-            <p>1. Question</p>
-            <div class="optionfields">
-                <div class="options">
-                    <input type="radio" name="question">
-                    <p>Option 1</p>
-                </div>
-                <div class="options">
-                    <input type="radio" name="question">
-                    <p>Option 1</p>
-                </div>
-                <div class="options">
-                    <input type="radio" name="question">
-                    <p>Option 1</p>
-                </div>
-                <div class="options">
-                    <input type="radio" name="question">
-                    <p>Option 1</p>
-                </div>
-            </div>    
+    <form name="quizForm" id="quizForm" onsubmit="return collectResult()">
+        <div id="quiz-container">
+            <!-- <div class="question">
+                <p>1. Question</p>
+                <div class="optionfields">
+                    <div class="options">
+                        <input type="radio" name="question">
+                        <p>Option 1</p>
+                    </div>
+                    <div class="options">
+                        <input type="radio" name="question">
+                        <p>Option 1</p>
+                    </div>
+                    <div class="options">
+                        <input type="radio" name="question">
+                        <p>Option 1</p>
+                    </div>
+                    <div class="options">
+                        <input type="radio" name="question">
+                        <p>Option 1</p>
+                    </div>
+                </div>    
+            </div> -->
         </div>
-    </div>
-    <button class="submitbtn">Submit</button>
+        <button class="submitbtn">Submit</button>
+    </form>
+
+    <script src="/javascript/adminScript.js"></script>
 </body>
 </html>

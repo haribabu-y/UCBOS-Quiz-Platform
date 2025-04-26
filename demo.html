@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        div {
+        /* div {
             width: 500px;
             height: 500px;
             background-color: lightgray;
-        }
+        } */
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Add New Question</h2>
+        <!-- <h2>Add New Question</h2>
         <form>
             <label for="question">Question</label><br>
             <textarea name="question" id="question" placeholder="Type your question here"></textarea><br>
@@ -32,7 +32,123 @@
             <button>Add Question</button>
             <button>Cancel</button>
             
-        </form>
+        </form> -->
+
+        <!-- Creating the edit question popup -->
+         <!-- <h2>Edit Question</h2>
+         <label for="question">Question</label>
+         <textarea name="question" id="question" value="${ques.question}"></textarea><br>
+         <label for="option1">Option 1</label>
+         <input type="text" id="option1" value="${ques.option1}"><br>
+         <label for="option2">Option 2</label>
+         <input type="text" id="option2" value="${ques.option2}"><br>
+         <label for="option3">Option 3</label>
+         <input type="text" id="option3" value="${ques.option3}"><br>
+         <label for="option4">Option 4</label>
+         <input type="text" id="option4" value="${ques.option4}"><br>
+         <label for="answer">Answer</label>
+         <input type="text" id="answer" value="${ques.answer}"><br>
+
+         <button>Save</button>
+         <button>Cancel</button> -->
+
+
+         <h1 class="heading">UCBOS Quiz</h1>
+         <form name="quizForm" id="quizForm" onsubmit="return collectResult()">
+
+        <div id="quiz-container">
+            <div class="question">
+
+                <p>1. Question</p>
+                <div class="optionfields">
+                    <div class="options">
+                        <input type="radio" name="question" value="option1">
+                        <p>Option 1</p>
+                    </div>
+                    <div class="options">
+                        <input type="radio" name="question" value="option2">
+                        <p>Option 2</p>
+                    </div>
+                    <div class="options">
+                        <input type="radio" name="question" value="option3">
+                        <p>Option 3</p>
+                    </div>
+                    <div class="options">
+                        <input type="radio" name="question" value="option4">
+                        <p>Option 4</p>
+                    </div>
+                </div> 
+                
+            </div>
+        </div>
+        <button class="submitbtn">Submit</button>
+    </form>  
+
+
     </div>
+
+    <script>
+        function collectResult() {
+            console.log(document.forms["quizForm"]["question"].value);
+            return false;
+        }
+    </script>
 </body>
 </html>
+
+
+<!-- 
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+</style>
+</head>
+<body>
+
+<h2>My Table</h2>
+
+<table id="myTable">
+  <thead>
+    <tr>
+      <th>Serial No.</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<button onclick="addTableRow()">Add Row</button>
+
+<script>
+let serialNumber = 1; // Initialize the serial number
+
+function addTableRow() {
+  const table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  const newRow = table.insertRow(table.rows.length); // Append to the end
+  const cell1 = newRow.insertCell(0);
+  const cell2 = newRow.insertCell(1);
+  const cell3 = newRow.insertCell(2);
+    const cell4 = newRow.insertCell(3);
+
+  cell1.innerHTML = serialNumber++; // Add serial number and increment
+  cell2.innerHTML = "Name " + serialNumber; // Example data
+  cell3.innerHTML = Math.floor(Math.random() * 50) + 18; // Example age
+    cell4.innerHTML = "City " + serialNumber;
+}
+</script>
+
+</body>
+</html> -->

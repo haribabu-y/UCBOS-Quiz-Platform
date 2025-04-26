@@ -304,9 +304,10 @@ table, th, td {
     padding: 20px;
     border-bottom: 3px solid black;
 }
-.quiz-container {
+#quiz-container {
     margin-left: 20px;
     position: relative;
+    /* height: auto; */
 }
 .optionfields {
     display: flex;
@@ -316,12 +317,12 @@ table, th, td {
     display: flex;
     gap: 5px;
 }
-.question > p {
+.questiondiv > label {
     margin: 20px 0 0 0;
 }
 
 .submitbtn {
-    position: absolute;
+    /* position: absolute; */
     bottom: 20px;
     right: 30px;
     padding: 10px;
@@ -330,6 +331,7 @@ table, th, td {
     font-size: 1.2rem;
     color: white;
     border-radius: 10px;
+    /* transform: translateY(50px); */
     transition: transform 0.2s;
 }
 
