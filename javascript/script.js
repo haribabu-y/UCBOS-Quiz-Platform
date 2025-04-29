@@ -48,7 +48,7 @@ function registerUser() {
     // console.log(name+", "+age+", "+phoneNumber+", "+email+", "+gender+", "+qualification+", "+address);
 
     //Storing the current user in the storage
-    localStorage.setItem("currentQuizUser", name);
+    localStorage.setItem("currentQuizUser", email);
 
     const user = {};
     user.name = name;
@@ -62,7 +62,7 @@ function registerUser() {
     const users = getUsers();
 
     //Validating the register user using their email
-    const quizUser = users.some(user => user.email === email);
+    const quizUser = users.some(user => (user.email === email || user.phoneNumber === phoneNumber));
     var errmessage = document.getElementById("errmsg");
     if(quizUser) {
         errmessage.textContent= "User already finished quiz!.";
@@ -73,6 +73,21 @@ function registerUser() {
         },2000);
         return false;
     } 
+
+    //validating the age
+    if(age > 100 || age < 18) {
+        errmessage.textContent = "Invalid Age entered!";
+        return false;
+    } else {
+        errmessage.textContent = "";
+    }
+
+    if(phoneNumber.length > 10 || phoneNumber < 10) {
+        errmessage.textContent = "Invalid Phone Number!";
+        return false;
+    } else {
+        errmessage.textContent = "";
+    }
     
     users.push(user);
     saveUsers(users);
@@ -86,6 +101,34 @@ function registerUser() {
 
     return false;
 }
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     const form = document.getElementById("myform");
+//     const subbtn = document.getElementById("submitbtn");
+//     const inputFields = form.querySelectorAll("input[required]");
+
+//     function checkFormValidity() {
+//         let allFieldsFilled = true;
+//         inputFields.forEach(input => {
+//             if(input.value.trim() === "") {
+//                 allFieldsFilled = false;
+//             }
+//         });
+
+//         if(allFieldsFilled) {
+//             subbtn.style.display = "block";
+//         } else {
+//             subbtn.style.display = "none";
+//         }
+//     }
+
+//     inputFields.forEach(input => {
+//         input.addEventListener('input', checkFormValidity);
+//         input.addEventListener('blur', checkFormValidity);
+//     });
+//     checkFormValidity();
+
+// });
 
 
 

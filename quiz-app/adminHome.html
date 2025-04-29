@@ -8,18 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
-<body style="background-color: lightgray;" class="adminHomebody" onload="addQuizQuestionsToTable(); addResultsToTable();">
+<body class="adminHomebody" onload="addQuizQuestionsToTable(); addResultsToTable();">
     <header class="header">
         <a href="home.html" >LOG OUT</a>
     </header>
     
     <div class="container">
         <div class="navgation">
-            <p>Results</p>
-            <p>Questions</p>
+            <p id="result">Results</p>
+            <p id="questions">Questions</p>
         </div>
         <div class="content">
-            <div class="resultdiv">
+            <div class="resultdiv" id="result-container">
                 <table>
                     <thead>
                         <tr>
@@ -28,22 +28,24 @@
                             <th>Marks</th>
                             <th>Quiz Submission Time</th>
                             <th>-</th>
+                            <th>-</th>
                         </tr>
                     </thead>
                     <tbody id="resultTableBody">
-                        <tr>
+                        <!-- <tr>
                             <td>ABC</td>
                             <td>B.Tech</td>
                             <td>10/10</td>
                             <td>01-01-2025 10:30:00 AM</td>
                             <td><a href="#">More Details</a></td>
-                        </tr>
+                            <td><button onclick="deleteUser()">Del</button></td>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
 
-            <div class="questionsdiv" >
-                <button class="addQuestionbtn" onclick="openAddQuestionpopup()">Add Question</button>
+            <div class="questionsdiv" id="questions-container">
+                <p><button class="addQuestionbtn" onclick="openAddQuestionpopup()">Add Question</button></p>
                 <table>
                     <thead>
                         <tr>
