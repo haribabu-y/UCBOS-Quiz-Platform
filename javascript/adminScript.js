@@ -39,11 +39,20 @@ function openAddQuestionpopup() {
             </div>
             <div class="field-box">
                 <label for="option4">Option 4</label>
-                <input type="text" id="option4"required placeholder="Forth option">
+                <input type="text" id="option4" required placeholder="Forth option">
+            </div>
+            <div class="field-box">
+                <label for="option5">Option 5</label>
+                <input type="text" id="option5" required placeholder="Fifth option">
             </div>
             <div class="field-box">
                 <label for="answer">Answer</label>
                 <input type="text" id="answer" required placeholder="Answer">
+                <!-- <input type="radio" name="answer1" value="">
+                <input type="radio" name="answer1" value="">
+                <input type="radio" name="answer1" value="">
+                <input type="radio" name="answer1" value="">
+                <input type="radio" name="answer1" value=""> -->
             </div>
 
             <div class="btndiv">
@@ -64,10 +73,19 @@ function addNewQuestion() {
         option2 : document.getElementById("option2").value.trim(),
         option3 : document.getElementById("option3").value.trim(),
         option4 : document.getElementById("option4").value.trim(),
+        option5 : document.getElementById("option5").value.trim(),
         answer : document.getElementById("answer").value.trim()
     };
+    const options = [];
+    options.push(document.getElementById("option1").value.trim());
+    options.push(document.getElementById("option2").value.trim());
+    options.push(document.getElementById("option3").value.trim());
+    options.push(document.getElementById("option4").value.trim());
 
-    if(!quizquestion.question || !quizquestion.question || !quizquestion.option1 || !quizquestion.option2 || !quizquestion.option3 || !quizquestion.option4 || !quizquestion.answer) {
+
+    const answer = document.getElementById("answer").value.trim();
+
+    if(!quizquestion.questionNo || !quizquestion.question || !quizquestion.option1 || !quizquestion.option2 || !quizquestion.option3 || !quizquestion.option4 || !quizquestion.answer) {
         // alert("Please fill all the fields!");
         document.getElementById("errmsg").textContent = "Please fill all the fields!";
         return false;
@@ -101,12 +119,30 @@ function addNewQuestion() {
     } else {
         errMsg.textContent = "";
     }
+
+    //validating the duplicate options
+    let haveDublicateOptions = validationOptions(options);
+    if(haveDublicateOptions) {
+        errMsg.textContent = "Options should be Unique!";
+        return false;
+    } else {
+        errMsg.textContent = "";
+    }
+
+    //Validating the answer 
+    let ans = validatingAnswer(options, answer);
+    if(ans === undefined) {
+        errMsg.textContent = "Answer should match one of the options!";
+        return false;
+    } else {
+        errMsg.textContent = "";
+    }
     
     questions.push(quizquestion);
     setQuizQuestion(questions);
     closePopup();
     addQuizQuestionsToTable();
-
+    location.reload();
 }
 
 //function for Closing the popup
@@ -124,37 +160,91 @@ function setQuizQuestion(questions) {
     localStorage.setItem("quizQuestions", JSON.stringify(questions));
 }
 
+const rowsPerPage = 5;
+var quesCurrentPage = 1;
+const questions = getQuizQuestions();
 //Function to add the stored quiz questions to the table
 function addQuizQuestionsToTable() {
     const quizQuestionsTableBody = document.getElementById("questionsTableBody");
     sortQuestions();
-    const questions = getQuizQuestions();
+    // console.log(quesCurrentPage);
+    // console.log(questions.length);
+    
+    const start = (quesCurrentPage - 1)*rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginationitems = questions.slice(start, end);
+    // console.log(paginationitems);
+     
 
     if(questions.length === 0) {
         quizQuestionsTableBody.innerHTML = `<tr><td colspan="4">No questions found!. Add the Questions</tr>`;
         return;
     }
+    // for(let row of paginationitems) {
 
-    quizQuestionsTableBody.innerHTML = "";
-    // var serialNumber = 1;
-    questions.forEach((ques) => {
-        const newRow = document.createElement("tr");
+        quizQuestionsTableBody.innerHTML = "";
+        // var serialNumber = 1;
+        paginationitems.forEach((ques) => {
+            const newRow = document.createElement("tr");
 
-        newRow.innerHTML = `
-            <td>${ques.questionNo}</td>
-            <td>${ques.question}</td>
-            <td><button class="actionBtn" onclick='editQuestion(${JSON.stringify(ques)})'><i class="fas fa-pencil"></i></button></td>
-            <td><button class="actionBtn" onclick='deleteQuestion("${ques.questionNo}")'><i class="fas fa-trash-can"></i></button></td>
-        `;
-        quizQuestionsTableBody.appendChild(newRow)
-    });
+            newRow.innerHTML = `
+                <td>${ques.questionNo}</td>
+                <td>${ques.question}</td>
+                <td><button class="actionBtn" onclick='editQuestion(${JSON.stringify(ques)})'><i class="fas fa-pencil"></i></button></td>
+                <td><button class="actionBtn" onclick='deleteQuestion("${ques.questionNo}")'><i class="fas fa-trash-can"></i></button></td>
+            `;
+            quizQuestionsTableBody.appendChild(newRow)
+        }); 
+    // }
+    if(quesCurrentPage === 1) {
+        document.getElementById("quesPrevBtn").disabled = true;
+        // document.getElementById("quesmsg").textContent = "Move to next page!"
+    } else {
+        document.getElementById("quesPrevBtn").disabled = false;
+    }
+    if(end > questions.length || end >= questions.length) {
+        document.getElementById("quesNextBtn").disabled = true;
+        // document.getElementById("quesmsg").textContent = "Move to next page!"
+    } else {
+        document.getElementById("quesNextBtn").disabled = false;
+    }
 }
 
+function quesNextPage() {
+    if(quesCurrentPage * rowsPerPage < questions.length){
+        quesCurrentPage++;
+        addQuizQuestionsToTable();
+    }
+}
+
+function QuesPrevPage() {
+    if(quesCurrentPage > 1) {
+        quesCurrentPage--;
+        addQuizQuestionsToTable();
+    }
+}
+// addQuizQuestionsToTable();
+// window.reload();
 //Creating the edit question popup
 function editQuestion(ques) {
+    const option1 = ques.option1;
+    const option2 = ques.option2;
+    const option3 = ques.option3;
+    const option4 = ques.option4;
+    const option5 = ques.option5;
+    // console.log(ques.option1);    
+    // console.log(ques.option2);
+    // console.log(ques.option3);
+    // console.log(ques.option4);
+    // console.log(ques.option5);
+    
+    const ans = ques.answer;
+    console.log(ans);
+    
+    // checkans(ans);
     const elements = `
         <h2>Edit Question</h2>
-        <form onsubmit="return updateQuestion('${ques.questionNo}')">
+        <form name="questionForm" onsubmit="return updateQuestion('${ques.questionNo}')">
             <div class="field-box">
                 <label for="questionNo">Question No.</label>
                 <input type="text" id="questionNo" value="${ques.questionNo}" disabled>
@@ -180,8 +270,18 @@ function editQuestion(ques) {
                 <input type="text" id="option4" value="${ques.option4}">
             </div>
             <div class="field-box">
-                <label for="answer">Answer</label>
-                <input type="text" id="answer" value="${ques.answer}">
+                <label for="option5">Option 5</label>
+                <input type="text" id="option5" value="${ques.option5}">
+            </div>
+            <div class="answer-box">
+                <label for="answer" id="title">Answer</label>
+                <div>
+                    <div><input type="radio" class="answer" name="answer" id="ans1" value="${ques.option1}"><label for="ans1">${ques.option1}</label></div>
+                    <div><input type="radio" class="answer" name="answer" id="ans2" value="${ques.option2}"><label for="ans2">${ques.option2}</label></div>
+                    <div><input type="radio" class="answer" name="answer" id="ans3" value="${ques.option3}"><label for="ans3">${ques.option3}</label></div>
+                    <div><input type="radio" class="answer" name="answer" id="ans4" value="${ques.option4}"><label for="ans4">${ques.option4}</label></div>
+                    <div><input type="radio" class="answer" name="answer" id="ans5" value="${ques.option5}"><label for="ans5">${ques.option5}</label></div>
+                </div>
             </div>
             <div class="btndiv">
                 <button type="submit">Save</button>
@@ -191,7 +291,44 @@ function editQuestion(ques) {
         <p id="errmsg"></p>
     `;
     openPopup(elements);
+    // document.addEventListener('DOMContentLoaded', function() {
+        // setTimeout(() => {
+        //     if(option1 === ans) {
+        //         document.getElementById("ans1").checked = true;
+        //     } else if(option2 === ans) {
+        //         document.getElementById("ans2").checked = true;
+        //     } else if(option3 === ans) {
+        //         document.getElementById("ans3").checked = true;
+        //     } else if(option4 === ans) {
+        //         document.getElementById("ans4").checked = true;
+        //     } else if(option5 === ans){
+        //         document.getElementById("ans5").checked = true;
+        //     }
+        // }, 100);
+            if(option1 === ans) {
+                document.getElementById("ans1").checked = true;
+            } else if(option2 === ans) {
+                document.getElementById("ans2").checked = true;
+            } else if(option3 === ans) {
+                document.getElementById("ans3").checked = true;
+            } else if(option4 === ans) {
+                document.getElementById("ans4").checked = true;
+            } else if(option5 === ans){
+                document.getElementById("ans5").checked = true;
+            }
+    // });
 }
+
+// function checkans(ans) {
+//     for(let i=1;i<=5;i++) {
+//         if(document.getElementById(`ans${i}`).value === ans) {
+//             document.getElementById(`ans${i}`).checked = true;
+//         }
+//     }
+// }
+// console.log(document.getElementsByClassName("answer"));
+// console.log(document.querySelectorAll("input[type='radio']"));
+
 
 //Updateing the Question in the storage
 function updateQuestion(quesNo) {
@@ -208,9 +345,20 @@ function updateQuestion(quesNo) {
     quizQuestions[index].option2 = document.getElementById("option2").value.trim();
     quizQuestions[index].option3 = document.getElementById("option3").value.trim();
     quizQuestions[index].option4 = document.getElementById("option4").value.trim();
-    quizQuestions[index].answer = document.getElementById("answer").value.trim();
+    quizQuestions[index].option5 = document.getElementById("option5").value.trim();
+    quizQuestions[index].answer = document.forms["questionForm"]["answer"].value;
 
     //getting the questions from the storage
+    const options = [];
+    options.push(document.getElementById("option1").value.trim());
+    options.push(document.getElementById("option2").value.trim());
+    options.push(document.getElementById("option3").value.trim());
+    options.push(document.getElementById("option4").value.trim());
+    options.push(document.getElementById("option5").value.trim());
+    
+    // const answer = document.getElementById("answer").value.trim();
+    const answer = document.forms["questionForm"]["answer"].value;
+
     const questions = getQuizQuestions();
     const question = document.getElementById("question").value.trim();
     const errMsg = document.getElementById("errmsg");
@@ -222,22 +370,40 @@ function updateQuestion(quesNo) {
         errMsg.textContent = "";
     }
 
+    //Validating the options 
+    let haveDublicateOptions = validationOptions(options);
+    if(haveDublicateOptions) {
+        errMsg.textContent = "Options should be Unique!";
+        return false;
+    } else {
+        errMsg.textContent = "";
+    }
+    //Validating the answer is valid or matches the options
+    let ans = validatingAnswer(options, answer);
+    if(ans === undefined) {
+        errMsg.textContent = "Answer should match one of the options!";
+        return false;
+    } else {
+        errMsg.textContent = "";
+    }
+
     setQuizQuestion(quizQuestions);
     closePopup();
     addQuizQuestionsToTable();
-    
+    location.reload();
 }
 
 // Creating the Delete popup
 function deleteQuestion(quesNo) {
     const elements = `
-        <h2>Are you sure to delete this Question?</h2>
+        <h3>Are you sure to delete this Question?</h3>
         <div class="btndiv">
             <button onclick="deleteQuizQuestion('${quesNo}')">Yes</button>
             <button onclick="closePopup()">Cancel</button>
         </div>
     `;
     openPopup(elements);
+    addQuizQuestionsToTable();
 }
 
 //Deleting the question from the storage
@@ -247,6 +413,7 @@ function deleteQuizQuestion(quesNo) {
     setQuizQuestion(quizQuestions);
     closePopup();
     addQuizQuestionsToTable();
+    location.reload();
 }
 
 
@@ -276,6 +443,10 @@ function loadingQuizQuestions() {
                 <div class="options">
                     <input type="radio" name="${quizQuestion.questionNo}question" value="${quizQuestion.option4}" id="${quizQuestion.questionNo}option4">
                     <label for="${quizQuestion.questionNo}option4">${quizQuestion.option4}</label>
+                </div>
+                <div class="options">
+                    <input type="radio" name="${quizQuestion.questionNo}question" value="${quizQuestion.option5}" id="${quizQuestion.questionNo}option4">
+                    <label for="${quizQuestion.questionNo}option5">${quizQuestion.option5}</label>
                 </div>
             </div>
         `;
@@ -373,18 +544,25 @@ function collectResult() {
     return false;
 }
 
+
+const quizUsers = JSON.parse(localStorage.getItem("quizUsers"));
+let resCurrentPage = 1;
 //Adding the quiz Result to the reesult table
 function addResultsToTable() {
-    const resultTableBody = document.getElementById("resultTableBody");
-    const quizUsers = JSON.parse(localStorage.getItem("quizUsers"));
+    const resultTableBody = document.getElementById("resultTableBody");    
     
+    const start = (resCurrentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginationItems = quizUsers.slice(start, end);
+    // console.log(quizUsers.length);
+
     if(quizUsers.length === 0) {
         resultTableBody.innerHTML = `<tr><td colspan="5">No Results found!.</td></tr>`;
         return;
     }
 
     resultTableBody.innerHTML = "";
-    quizUsers.forEach((quizUser) => {
+    paginationItems.forEach((quizUser) => {
         const newRow = document.createElement("tr");
 
         newRow.innerHTML = `
@@ -397,12 +575,38 @@ function addResultsToTable() {
         `;
         resultTableBody.appendChild(newRow);
     });
+    if(resCurrentPage ===1) {
+        document.getElementById("resPrevBtn").disabled = true;
+        // document.getElementById("resmsg").textContent = "Move to next page!"
+    } else {
+        document.getElementById("resPrevBtn").disabled = false;
+    }
+    if(end > quizUsers.length || end >= quizUsers.length) {
+        document.getElementById("resNextBtn").disabled = true;
+        // document.getElementById("resmsg").textContent = "Back to previous page!"
+    } else {
+        document.getElementById("resNextBtn").disabled = false;
+    }
+}
+
+function resNextPage() {
+    if(resCurrentPage * rowsPerPage < quizUsers.length) {
+        resCurrentPage++;
+        addResultsToTable();
+    }
+}
+
+function resPrevPage() {
+    if(resCurrentPage > 1) {
+        resCurrentPage--;
+        addResultsToTable();
+    }
 }
 
 // Creating the Delete popup
 function deleteUser(email) {
     const elements = `
-        <h2>Are you sure to delete this User?</h2>
+        <h3>Are you sure to delete this User?</h3>
         <div class="btndiv">
             <button onclick="deleteQuizUser('${email}')">Yes</button>
             <button onclick="closePopup()">Cancel</button>
@@ -418,6 +622,7 @@ function deleteQuizUser(userEmail) {
     localStorage.setItem("quizUsers", JSON.stringify(quizUsers));
     closePopup();
     addResultsToTable();
+    location.reload();
 
 }
 
@@ -450,7 +655,7 @@ resultElement.addEventListener('click', () => {
 
 function openDetails(user) {
     const elements = `
-        <h2>Quiz User Details</h2>
+        <h3>Quiz User Details</h3>
         <div class="userDetails">
             <p><strong>Name:</strong> ${user.name}</p>
             <p><strong>Age:</strong> ${user.age}</p>
@@ -497,4 +702,24 @@ function sortQuestions() {
     });
 
     setQuizQuestion(sortedQuestions);
+}
+
+//Function to check if the options are multiple
+function validationOptions(options) {
+    let havemultipleOptions = false;
+    for(let i = 0; i < options.length; i++) {
+        for(let j = 0; j < options.length; j++) {
+            if(i != j && options[i] == options[j] ) {
+                havemultipleOptions = true;
+                break;
+            }
+        }
+    }
+    return havemultipleOptions;
+}
+
+//function to check the answer should match one of the options
+function validatingAnswer(options, answer) {
+    let ans = options.find(option => option === answer);
+    return ans;
 }

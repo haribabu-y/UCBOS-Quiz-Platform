@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
-<body class="adminHomebody" onload="addQuizQuestionsToTable(); addResultsToTable();">
-    <header class="header">
+<body class="adminHomebody" onload="addQuizQuestionsToTable(); addResultsToTable();" style="overflow-x: auto;">
+    <header class="logout">
         <a href="home.html" >LOG OUT</a>
     </header>
     
@@ -18,6 +18,7 @@
             <p id="result">Results</p>
             <p id="questions">Questions</p>
         </div>
+        
         <div class="content">
             <div class="resultdiv" id="result-container">
                 <table>
@@ -42,29 +43,43 @@
                         </tr> -->
                     </tbody>
                 </table>
+                <p id="resmsg"></p>
+                <div class="pagination">
+                    <button id="resPrevBtn" onclick="resPrevPage()"><i class="fas fa-angle-left"></i></button>
+                    <button id="resNextBtn" onclick="resNextPage()"><i class="fas fa-angle-right"></i></button>
+                </div>
             </div>
 
             <div class="questionsdiv" id="questions-container">
                 <p><button class="addQuestionbtn" onclick="openAddQuestionpopup()">Add Question</button></p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Sl No</th>
-                            <th>Question</th>
-                            <th>-</th>
-                            <th>-</th>
-                        </tr>
-                    </thead>
-                    <tbody id="questionsTableBody">
-                        <!-- <tr>
-                            <td>01</td>
-                            <td>question 1</td>
-                            <td><button class="actionBtn"><i class="fas fa-pencil"></i></button></td>
-                            <td><button class="actionBtn"><i class="fas fa-trash-can"></i></button></td>
-                        </tr> -->
-                    </tbody>
-                </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sl No</th>
+                                <th>Question</th>
+                                <th>-</th>
+                                <th>-</th>
+                            </tr>
+                        </thead>
+                        <tbody id="questionsTableBody">
+                            <!-- <tr>
+                                <td>01</td>
+                                <td>question 1</td>
+                                <td><button class="actionBtn"><i class="fas fa-pencil"></i></button></td>
+                                <td><button class="actionBtn"><i class="fas fa-trash-can"></i></button></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                    <p id="quesmsg"></p>
+                    <div class="pagination">
+                        <button id="quesPrevBtn" onclick="QuesPrevPage()" style="cursor: pointer;"><i class="fas fa-angle-left"></i></button>
+                        <button id="quesNextBtn" onclick="quesNextPage()" style="cursor: pointer;"><i class="fas fa-angle-right"></i></button>
+                    </div>
             </div>
+            <!-- <div class="pagination">
+                <a href="#"><i class="fas fa-angle-left"></i></a>
+                <a href="#"><i class="fas fa-angle-right"></i></a>
+            </div> -->
         </div>
     </div>
     
